@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>番茄钟</title>
+	<meta charset="UTF-8">
+	<link href="https://cdn.jsdelivr.net/npm/animate.css@3.5.1" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" type="text/css" href="lib/bootstrap.css">
+	<link rel="stylesheet" type="text/css" href="css/glable.css">
+
+	<script type="text/javascript" src="lib/vue.js"></script>	
+	
+	<script type="text/javascript">
+		window.onload = function(){
+			new Vue({
+					el:'#parentdiv',
+					data:{
+						inittext:"番茄钟计时器",
+						//text:"番茄钟计时器",
+						timer:25, 
+						everyRelextTime:5,
+						soundRest:'audio/rest.mp3',
+						soundTick:'audio/tick.mp3',
+						openTickSound:true,
+						showaddmission:false,
+						tomatoCount:0,
+						initTaskName:"我的番茄钟任务",
+						mytasks:[],						
+					},
+					computed:{
+						allTime:function(){
+							return this.tomatoCount*30;
+						},
+						workTime:function(){
+							return this.tomatoCount*(30 - this.everyRelextTime);
+						},
+						relexTime:function(){
+							return this.tomatoCount*this.everyRelextTime;
+						},
+						text:function(){
+							if (this.tomatoCount<1) {
+								return "番茄钟计时器";
+							} 
+							let [mini,second] = [parseInt(this.timer/60).toString().padStart(2,'0'),(this.timer%60).toString().padStart(2,'0')];
+							return `${mini}:${second}`
+						}
+					},
+					methods:{
+						startAtask:function (count=25*60) {  
+							this.timer = count;//this.allTime*60;
+							this.startDaojishi()
+						},
+						startDaojishi:function(){
+							this.timer -=1;
+							if(this.timer>0){
+								if(this.openTickSound){
+									this.PlaySound(this.soundTick)		
+								}
+								var that = this;
+								setTimeout(function(){ that.startDaojishi() }, 1000);	 
+							}
+							else{
+								this.tomatoCount -=1;
+								this.timer = 25*60; 
+								this.PlaySound(this.soundRest);
+							}
+						},
+					 	PlaySound:function(src) { 
+							/* 播放提示音 */
+						 	var au = document.createElement("audio");
+						 	au.preload="auto";
+					 		au.src = src;
+					 		au.play();
+					 	},
+					 	addtomato:function(){
+					 		this.tomatoCount +=1;	 
+					 	},
+					 	subtomato:function(){
+					 		if(this.tomatoCount>1)
+					 		{
+					 			this.tomatoCount -=1;
+					 		}
+					 	},
+					 	relextStartCount:function(){
+					 		 this.tomatoCount = 1;
+					 		 this.startAtask(5*60);
+					 	},
+					 	maketask:function(){
+					 		this.showaddmission = false;
+					 		let task = {"initTaskName":this.initTaskName,"tomatoCount":this.tomatoCount}
+					 		this.mytasks.push(task);
+					 		console.log(this.mytasks);
+					 		this.startAtask();
+					 	}
+					}
+			})
+		};
+	</script> 
+</head>
+<body class="container">
+
+<div id="parentdiv">
+
+    <nav class="navbar navbar-inverse" >
+
+	   <div class="container-fluid"> 
+	    <div class="navbar-header"> 
+	       <a class="navbar-brand" href="#">任务</a>
+	       <a class="navbar-brand" href="#" @click="relextStartCount">休息计时</a>
+	    </div> 
+
+	    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">    
+	       
+	      <ul class="nav navbar-nav navbar-right">
+	        <li><a href="#">统计</a></li>
+	        <li><a href="#">设置</a></li>
+	        <li><a href="#">关于</a></li>
+	      </ul>
+	    </div>
+
+	  </div>
+	</nav>
+
+	<!-- 添加番茄钟 -->
+	<div id="main"> 
+		<h1>{{text}}</h1>
+		<p>添加番茄钟，开始今天的学习和工作吧！</p>
+		<div class="addonediv">			
+			<button class="btn btn-primary center"  @click="showaddmission=!showaddmission"> <i class="iconfont"></i> 来一个番茄钟</button>
+		</div>
+ 		<div style="margin-top: 20px;"> 			
+		<button class="btn" @click="openTickSound=!openTickSound">{{openTickSound?"关闭声音":"开启声音"}}</button>
+ 		</div>		
+		
+		<div id="addmission" v-if="showaddmission">
+			 <div class="addnav">
+			 	 <div class="addMission-nav-title">新增番茄钟</div>
+			 	 <div class="addmossion-close" @click="showaddmission=false">X</div>
+			 </div> 
+			 <div class="addmission-main">
+			 	<div class="addmission-main-1">
+				 	<label> 任务名称: </label>
+				 		<input type="tex" id="missionName" v-model="initTaskName" placeholder="我的番茄钟"></input>			 		
+			 	</div>
+			 	<div class="addmission-main-1">
+			 		<label>预估番茄数: {{tomatoCount}}</label>
+			 		<span class="addMission-main-button">
+				 		<span class="addMission-main-button-sub" @click="subtomato">-</span>
+				 		<span class="addMission-main-button-add" @click="addtomato">+</span>
+			 		</span>
+			 	</div>
+			 	<div class="addmission-main-1">
+			 		<ul>
+			 			<li>总计时间:</li>
+			 			<li>任务时间:</li>
+			 			<li>休息时间:</li>
+			 		</ul> 
+			 		<ul>
+			 			<li>{{allTime}}分钟</li>
+			 			<li>{{workTime}}分钟</li>
+			 			<li>{{relexTime}}分钟</li>
+			 		</ul> 
+			 	</div>
+			 </div>
+
+			 	<div class="addmission-foot">
+			 		<button class="btn btn-default " @click="showaddmission=false">取消</button>
+			 		<button class="btn btn-primary" @click="maketask">确定</button>
+			 	</div>
+		</div> 
+	</div>
+
+</div>
+
+</body>
+</html>
