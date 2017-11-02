@@ -3,6 +3,8 @@
 <head>
 	<title>番茄钟</title>
 	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
 	<link href="https://cdn.jsdelivr.net/npm/animate.css@3.5.1" rel="stylesheet" type="text/css">
 	<link rel="stylesheet" type="text/css" href="lib/bootstrap.css">
 	<link rel="stylesheet" type="text/css" href="css/glable.css">
@@ -22,9 +24,10 @@
 						soundTick:'audio/tick.mp3',
 						openTickSound:true,
 						showaddmission:false,
-						tomatoCount:0,
+						tomatoCount:1,
 						initTaskName:"我的番茄钟任务",
-						mytasks:[],						
+						mytasks:[],		
+						mytimer:null,	
 					},
 					computed:{
 						allTime:function(){
@@ -46,17 +49,20 @@
 					},
 					methods:{
 						startAtask:function (count=25*60) {  
-							this.timer = count;//this.allTime*60;
-							this.startDaojishi()
+							this.timer = 0;
+							this.timer = count;
+							clearTimeout(this.mytimer); 
+							this.startDaojishi() 
 						},
 						startDaojishi:function(){
+
 							this.timer -=1;
 							if(this.timer>0){
 								if(this.openTickSound){
 									this.PlaySound(this.soundTick)		
 								}
-								var that = this;
-								setTimeout(function(){ that.startDaojishi() }, 1000);	 
+								var that = this; 
+								this.mytimer = setTimeout(function(){ that.startDaojishi() }, 1000);	 
 							}
 							else{
 								this.tomatoCount -=1;

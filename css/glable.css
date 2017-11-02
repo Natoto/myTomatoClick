@@ -53,7 +53,7 @@ h1{
 #addmission{
   border-radius: 5px;
   border: 1px solid gray;
-  width:600px;
+  width:80%;
   height: 350px;
   position: absolute;
   top:120px;
@@ -80,8 +80,8 @@ h1{
 
 .addmission-main{
   text-align: left;
-  margin-left: 80px;
-  margin-top: 30px;
+  margin-left: 5%;
+  margin-top: 5%;
 }
 
 .addmission-main-1{
@@ -90,7 +90,7 @@ h1{
 
 .addMission-main-button{
     position: absolute;
-    right: 100px;
+    right: 5%;
     color: #FFF;
     text-align: center;
     line-height: 30px;
@@ -119,7 +119,7 @@ ul li {
   text-align: left;  
   padding-right: 10px;
   padding-bottom: 10px;
-  width: 150px;
+  width: 30%;
   height: 30px;
  
 }
