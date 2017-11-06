@@ -93,9 +93,22 @@
 					 	},
 					 	maketask:function(){
 					 		this.showaddmission = false;
-					 		let task = {"initTaskName":this.initTaskName,"tomatoCount":this.tomatoCount}
-					 		this.mytasks.push(task);
-					 		console.log(this.mytasks);
+					 		let task = {"initTaskName":this.initTaskName,
+					 					"tomatoCount":this.tomatoCount,
+					 					"currentIndex":0,
+					 					"currentTime":0,
+					 					"state":0,/*0 未开始  1进行中  2完成 3结束*/
+					 				  }
+					 		this.mytasks.unshift(task); //.push(task); 
+					        console.log('已添加一个番茄钟');
+					 		// this.startAtask();
+					 	},
+					 	removeTomato:function(item){
+					 		let idx = this.mytasks.indexOf(item);
+					 		this.mytasks.splice(idx,1);
+					 		console.log(idx)
+					 	},
+					 	startTomato:function(item){
 					 		this.startAtask();
 					 	}
 					}
@@ -134,10 +147,11 @@
 		<div class="addonediv">			
 			<button class="btn btn-primary center"  @click="showaddmission=!showaddmission"> <i class="iconfont"></i> 来一个番茄钟</button>
 		</div>
- 		<div style="margin-top: 20px;"> 			
-		<button class="btn" @click="openTickSound=!openTickSound">{{openTickSound?"关闭声音":"开启声音"}}</button>
+ 		<div style="margin-top: 20px; margin-bottom: 20px;"> 			
+			<button class="btn" @click="openTickSound=!openTickSound">{{openTickSound?"关闭声音":"开启声音"}}</button>
  		</div>		
 		
+		<!-- 新建番茄钟版面 -->
 		<div id="addmission" v-if="showaddmission">
 			 <div class="addnav">
 			 	 <div class="addMission-nav-title">新增番茄钟</div>
@@ -156,24 +170,33 @@
 			 		</span>
 			 	</div>
 			 	<div class="addmission-main-1">
-			 		<ul>
-			 			<li>总计时间:</li>
-			 			<li>任务时间:</li>
-			 			<li>休息时间:</li>
+			 		<ul class="addmission-ul">
+			 			<li class="addmission-il">总计时间:</li>
+			 			<li class="addmission-il">任务时间:</li>
+			 			<li class="addmission-il">休息时间:</li>
 			 		</ul> 
-			 		<ul>
-			 			<li>{{allTime}}分钟</li>
-			 			<li>{{workTime}}分钟</li>
-			 			<li>{{relexTime}}分钟</li>
+			 		<ul class="addmission-ul">
+			 			<li class="addmission-il">{{allTime}}分钟</li>
+			 			<li class="addmission-il">{{workTime}}分钟</li>
+			 			<li class="addmission-il">{{relexTime}}分钟</li>
 			 		</ul> 
 			 	</div>
-			 </div>
-
-			 	<div class="addmission-foot">
-			 		<button class="btn btn-default " @click="showaddmission=false">取消</button>
-			 		<button class="btn btn-primary" @click="maketask">确定</button>
-			 	</div>
+			 </div> 
+		 	<div class="addmission-foot">
+		 		<button class="btn btn-default " @click="showaddmission=false">取消</button>
+		 		<button class="btn btn-primary" @click="maketask">确定</button>
+		 	</div>
 		</div> 
+
+		<div v-for="item in mytasks" class="mission-cell">  
+		  <ul class="mission-ul">
+		  	<li class="mission-il" style="width: 65%;text-align: left;margin-left:5%">{{item.initTaskName}}</li> 
+		  	<li class="mission-il">{{item.currentIndex}}/{{item.tomatoCount}}</li>
+		  	<li class="mission-il" @click="startTomato"><a><i class="iconfont"></i></a></li>
+		  	<li class="mission-il" @click="removeTomato(item)"> <a><i class="iconfont"></i></a> </li>
+		  </ul>
+		</div> 
+
 	</div>
 
 </div>

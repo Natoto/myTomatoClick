@@ -61,7 +61,7 @@ h1{
   box-shadow: 0 0 30px #000;
   margin:auto;  
   left:0;
-  right:0; 
+  right:0;  
 }
 .addnav{
   width: 100%;
@@ -113,15 +113,31 @@ h1{
   background-color: #428BCA;
 }
 
-ul li {
+.addmission-ul .addmission-il {
   list-style: none;
   float: left; 
   text-align: left;  
   padding-right: 10px;
   padding-bottom: 10px;
   width: 30%;
-  height: 30px;
- 
+  height: 30px; 
+}
+
+.mission-ul .mission-il {
+  list-style: none;
+  float: left; 
+  text-align: right;  
+  padding-left: : 10px;
+  padding-bottom: 10px;
+  width: 5%;
+  height: 30px; 
+}
+
+.mission-cell{
+
+  width: 100%;
+  height: 35px;
+  border-bottom: solid 1px  #cccccc;
 }
 
 .addmission-foot{
