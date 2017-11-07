@@ -8,7 +8,7 @@ window.onload = function(){
 				inittext:"番茄钟计时器",
 				//text:"番茄钟计时器",
 				timer:25, 
-				everyRelextTime:5*60,
+				everyRelextTime:5,
 				soundRest:'audio/rest.mp3',
 				soundTick:'audio/tick.mp3',
 				openTickSound:true,
