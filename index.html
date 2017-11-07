@@ -12,7 +12,7 @@
 
 	<script type="text/javascript" src="lib/vue.js"></script>	
 	<script src="js/tomato.js" type="text/javascript"></script> 
-	
+
 	<script type="text/javascript">
 
 	</script> 
@@ -91,8 +91,10 @@
 
 		<div v-for="item in mytasks" class="mission-cell">  
 		  <ul class="mission-ul">
-		  	<li class="mission-il" style="width: 60%;text-align: left;margin-left:5%">{{item.initTaskName}}</li> 
-		  	<li class="mission-il">{{item.currentIndex}}/{{item.tomatoCount}}</li>
+		  	<li class="mission-il" style="width: 55%;text-align: left;margin-left:5%">{{item.initTaskName}}</li> 
+		  	<li class="mission-il" > 
+		  		<label style="width:30px;border-radius:5px;background-color:#DFF0D8;color:#3C763D">{{item.currentIndex}}/{{item.tomatoCount}}</label>
+		  	</li>
 
 		  	<!-- 未开始 -->
 		  	<li class="mission-il" v-if="item.state === 0" @click="startTomato(item)"><a><i class="iconfont"></i></a></li>
@@ -107,7 +109,7 @@
 		  	</li>
 
 		  	<!-- 完成 -->
-		  	<li class="mission-il" style="width:25%" v-if="item.state === 2">
+		  	<li class="mission-il" style="width:28%" v-if="item.state === 2">
 		  		<i class="iconfont" style="color:#F4606C"> 任务完成!</i> 
 		  	</li>
  

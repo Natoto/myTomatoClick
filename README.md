@@ -15,5 +15,9 @@
 
 [http://nonato.gitee.io/mytomatoclick/#](http://nonato.gitee.io/mytomatoclick/#)
  
+#### pc界面
 ![预览](./mytomato.png)
 
+
+#### 手机界面
+![手机预览](./mytomato-mobile.png)
