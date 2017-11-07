@@ -11,109 +11,10 @@
 	<link rel="stylesheet" type="text/css" href="css/glable.css">
 
 	<script type="text/javascript" src="lib/vue.js"></script>	
+	<script src="js/tomato.js" type="text/javascript"></script> 
 	
 	<script type="text/javascript">
-		window.onload = function(){
-			new Vue({
-					el:'#parentdiv',
-					data:{
-						inittext:"番茄钟计时器",
-						//text:"番茄钟计时器",
-						timer:25, 
-						everyRelextTime:5,
-						soundRest:'audio/rest.mp3',
-						soundTick:'audio/tick.mp3',
-						openTickSound:true,
-						showaddmission:false,
-						tomatoCount:1,
-						initTaskName:"我的番茄钟任务",
-						mytasks:[],		
-						mytimer:null,	
-					},
-					computed:{
-						allTime:function(){
-							return this.tomatoCount*30;
-						},
-						workTime:function(){
-							return this.tomatoCount*(30 - this.everyRelextTime);
-						},
-						relexTime:function(){
-							return this.tomatoCount*this.everyRelextTime;
-						},
-						text:function(){
-							if (this.tomatoCount<1) {
-								return "番茄钟计时器";
-							} 
-							let [mini,second] = [parseInt(this.timer/60).toString().padStart(2,'0'),(this.timer%60).toString().padStart(2,'0')];
-							return `${mini}:${second}`
-						}
-					},
-					methods:{
-						startAtask:function (count=25*60) {  
-							this.timer = 0;
-							this.timer = count;
-							clearTimeout(this.mytimer); 
-							this.startDaojishi() 
-						},
-						startDaojishi:function(){
 
-							this.timer -=1;
-							if(this.timer>0){
-								if(this.openTickSound){
-									this.PlaySound(this.soundTick)		
-								}
-								var that = this; 
-								this.mytimer = setTimeout(function(){ that.startDaojishi() }, 1000);	 
-							}
-							else{
-								this.tomatoCount -=1;
-								this.timer = 25*60; 
-								this.PlaySound(this.soundRest);
-							}
-						},
-					 	PlaySound:function(src) { 
-							/* 播放提示音 */
-						 	var au = document.createElement("audio");
-						 	au.preload="auto";
-					 		au.src = src;
-					 		au.play();
-					 	},
-					 	addtomato:function(){
-					 		this.tomatoCount +=1;	 
-					 	},
-					 	subtomato:function(){
-					 		if(this.tomatoCount>1)
-					 		{
-					 			this.tomatoCount -=1;
-					 		}
-					 	},
-					 	relextStartCount:function(){
-					 		 this.tomatoCount = 1;
-					 		 this.startAtask(5*60);
-					 	},
-					 	maketask:function(){
-					 		this.showaddmission = false;
-					 		let task = {"initTaskName":this.initTaskName,
-					 					"tomatoCount":this.tomatoCount,
-					 					"currentIndex":0,
-					 					"currentTime":0,
-					 					"state":0,/*0 未开始  1进行中  2完成 3结束*/
-					 				  }
-					 		this.mytasks.unshift(task); //.push(task); 
-					        console.log('已添加一个番茄钟');
-					 		// this.startAtask();
-					 	},
-					 	removeTomato:function(item){
-					 		let idx = this.mytasks.indexOf(item);
-					 		this.mytasks.splice(idx,1);
-					 		console.log(idx)
-					 	},
-					 	startTomato:function(item){
-					 		this.startAtask();
-					 	}
-					}
-			})
-		};
 	</script> 
 </head>
 <body class="container">
@@ -190,10 +91,27 @@
 
 		<div v-for="item in mytasks" class="mission-cell">  
 		  <ul class="mission-ul">
-		  	<li class="mission-il" style="width: 65%;text-align: left;margin-left:5%">{{item.initTaskName}}</li> 
+		  	<li class="mission-il" style="width: 60%;text-align: left;margin-left:5%">{{item.initTaskName}}</li> 
 		  	<li class="mission-il">{{item.currentIndex}}/{{item.tomatoCount}}</li>
-		  	<li class="mission-il" @click="startTomato"><a><i class="iconfont"></i></a></li>
-		  	<li class="mission-il" @click="removeTomato(item)"> <a><i class="iconfont"></i></a> </li>
+
+		  	<!-- 未开始 -->
+		  	<li class="mission-il" v-if="item.state === 0" @click="startTomato(item)"><a><i class="iconfont"></i></a></li>
+		  	<li class="mission-il" v-if="item.state === 0" @click="removeTomato(item)"> <a><i class="iconfont"></i></a> </li>
+
+		  	<!-- 进行中 -->
+		  	<li class="mission-il" v-if="item.state === 1" @click="completeTomato(item)"> 
+				<a><i class="iconfont"></i></a>
+		  	</li>
+		  	<li class="mission-il" v-if="item.state === 1" @click="pauseTomato(item)">
+		  		<a style="color:#F4606C;"> <i class="iconfont"></i></a>
+		  	</li>
+
+		  	<!-- 完成 -->
+		  	<li class="mission-il" style="width:25%" v-if="item.state === 2">
+		  		<i class="iconfont" style="color:#F4606C"> 任务完成!</i> 
+		  	</li>
+ 
+
 		  </ul>
 		</div> 
 
