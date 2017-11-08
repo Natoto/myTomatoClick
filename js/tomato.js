@@ -18,6 +18,8 @@ window.onload = function(){
 				mytasks:[],		
 				mytimer:null,	
 				currentTomato:null,
+				pannelType:0,//0是任务 1是统计 2是设置 3是关于
+				
 			},
 			watch:{
 				timer:function(t){
@@ -48,6 +50,10 @@ window.onload = function(){
 
 			},
 			methods:{
+
+				switchPannelType:function(type=1){
+					this.pannelType = type;
+				},
 				startAtask:function (count=25*60) {  
 					this.timer = 0;
 					this.timer = count;
@@ -98,8 +104,9 @@ window.onload = function(){
 			 		}
 			 	},
 			 	relextStartCount:function(){
+			 		this.pannelType = 0;
 			 		if(this.currentTomato && this.currentTomato.state === 1){
-			 			this.currentTomato.state = 0; 
+			 			this.currentTomato.state = 0;  
 			 		}
 			 		this.tomatoCount = 1;
 			 		this.startAtask(5*60);

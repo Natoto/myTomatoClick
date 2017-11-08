@@ -20,29 +20,35 @@
 <body class="container">
 
 <div id="parentdiv">
+     
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark" >
+	<a class="navbar-brand" href="#">番茄钟任务管理</a>
+	  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation" style="">
+	   <span class="navbar-toggler-icon"></span>
+	  </button>
 
-    <nav class="navbar navbar-inverse" >
+	   <div class="collapse navbar-collapse"> 
+ 
+	        <ul class="navbar-nav mr-auto">
+	        <li class="nav-item"> <a class="nav-link" href="#" @click="switchPannelType(0)">任务</a> </li>
 
-	   <div class="container-fluid"> 
-	    <div class="navbar-header"> 
-	       <a class="navbar-brand" href="#">任务</a>
-	       <a class="navbar-brand" href="#" @click="relextStartCount">休息计时</a>
-	    </div> 
+	        <li class="nav-item"> <a class="nav-link" href="#" @click="relextStartCount">休息计时</a> </li>
 
-	    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">    
-	       
-	      <ul class="nav navbar-nav navbar-right">
-	        <li><a href="#">统计</a></li>
-	        <li><a href="#">设置</a></li>
-	        <li><a href="#">关于</a></li>
-	      </ul>
-	    </div>
+	        </ul>
+	        
+
+  
+	        <ul class="navbar-nav ml-auto">
+	        <li class="nav-item"><a href="#" class="nav-link"  @click="switchPannelType(1)">统计</a></li>
+	        <li class="nav-item"><a href="#" class="nav-link"  @click="switchPannelType(2)">设置</a></li>
+	        <li class="nav-item" ><a href="#" class="nav-link"  @click="switchPannelType(3)">关于</a></li>
+	      </ul>  
 
 	  </div>
 	</nav>
 
 	<!-- 添加番茄钟 -->
-	<div id="main"> 
+	<div id="main" v-if="pannelType === 0"> 
 		<h1>{{text}}</h1>
 		<p>添加番茄钟，开始今天的学习和工作吧！</p>
 		<div class="addonediv">			
@@ -61,7 +67,7 @@
 			 <div class="addmission-main">
 			 	<div class="addmission-main-1">
 				 	<label> 任务名称: </label>
-				 		<input type="tex" id="missionName" v-model="initTaskName" placeholder="我的番茄钟"></input>			 		
+				 		<input type="tex" class="form-control width50" id="missionName" v-model="initTaskName" placeholder="我的番茄钟"></input>			 		
 			 	</div>
 			 	<div class="addmission-main-1">
 			 		<label>预估番茄数: {{tomatoCount}}</label>
@@ -118,6 +124,77 @@
 		</div> 
 
 	</div>
+
+
+	<div id="tongji" v-if="pannelType === 1">
+		统计页面
+	</div>
+
+	<div id="setting" v-if="pannelType === 2">
+ 
+		 <ul style="list-style: none;">
+		 	<li> 
+		 		<button class="btn btn-outline-info noboarder">基本设置</button> 
+			</li>		 	
+		 	<li> <button class="btn btn-outline-info noboarder">声音设置</button></li>
+		 	<li> <button class="btn btn-outline-info noboarder">显示设置</button></li>
+		 	<li> <button class="btn btn-outline-info noboarder">桌面设置</button></li>
+		 	<li> <button class="btn btn-outline-info noboarder">同步设置</button></li>
+		 </ul>
+	</div>
+
+	<div id="setting-content" v-if="pannelType === 2">
+			<div class="setting-base">
+		 <table class="table table-striped table-hover table-bordered"> 
+		  <tbody>
+		    <tr> 
+		      <td>窗口最前</td>
+		      <td> 
+				  <label class="form-check-label">
+				        <input type="checkbox" class="form-check-input">
+				         选择
+				  </label>
+		      </td> 
+		    </tr>
+		    <tr> 
+		      <td>点击完成时，自动进入休息时间</td>
+		      <td> 
+				  <label class="form-check-label">
+				        <input type="checkbox" class="form-check-input">
+				         选择
+				  </label>
+		      </td> 
+		    </tr>
+		    <tr class="table-info"> 
+		      <td>一个番茄钟的时间（1-59）</td>
+		      <td>  
+		        <input type="text" class="form-control is-valid width50" id="inputValid"> 
+		      </td> 
+		    </tr>
+		    <tr class="table-success"> 
+		      <td>一个段休息的时间（1-20）</td>
+		      <td>  
+		        <input type="text" class="form-control is-valid width50" id="inputValid"> 
+		      </td> 
+		    </tr> 
+		    <tr class="table-danger"> 
+		      <td>一个长休息的时间（1-40）</td>
+		      <td>  
+		        <input type="text" class="form-control is-valid width50" id="inputValid"> 
+		      </td> 
+		    </tr> 
+		    <tr class="table-warning"> 
+		      <td>进入长休息的间隔（1-12）</td>
+		      <td>  
+		        <input type="text" class="form-control is-valid width50" id="inputValid"> 
+		      </td> 
+		    </tr> 
+		  </tbody>
+		</table>  
+
+		</div>
+	</div>
+
 
 </div>
 
