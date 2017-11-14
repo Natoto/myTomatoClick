@@ -113,6 +113,9 @@ h1{
   background-color: #428BCA;
 }
 
+*{
+  font-family:"PingFang SC"
+}
 .addmission-ul .addmission-il {
   list-style: none;
   float: left; 
